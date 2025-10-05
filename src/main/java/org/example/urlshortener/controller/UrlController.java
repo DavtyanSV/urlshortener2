@@ -4,9 +4,7 @@ import org.example.urlshortener.dto.ShortUrlRequest;
 import org.example.urlshortener.dto.ShortUrlResponse;
 import org.example.urlshortener.service.UrlService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UrlController {
@@ -23,12 +21,16 @@ public class UrlController {
     @PostMapping("/shorten")
     public ResponseEntity<ShortUrlResponse> shortenUrl(@RequestBody ShortUrlRequest request){
 
-        request.getUrl();
 
         // метод сервиса который должен проверить наличие юрл в бд и потом или вернуть шортюрл или создать а потом вернуть
         ShortUrlResponse shortUrlResponse = urlService.getUrl(request.getUrl());
         return ResponseEntity.ok(shortUrlResponse);
 
+    }
+
+    @GetMapping("/{shorten}")
+    public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shorten){
+        urlService.
     }
 
 }

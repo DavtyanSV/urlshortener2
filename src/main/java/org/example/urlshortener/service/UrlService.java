@@ -14,6 +14,7 @@ public class UrlService {
         this.urlRepository = urlRepository;
     }
 
+    //обьединили в одну транзакцию чтобы операция по добавлению сущности не была раздроблена как-либо
     @Transactional
     public ShortUrlResponse getUrl(String longUrl) {
         // дто для передачи в контроллер
