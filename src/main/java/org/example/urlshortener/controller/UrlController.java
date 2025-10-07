@@ -3,14 +3,18 @@ package org.example.urlshortener.controller;
 import org.example.urlshortener.dto.ShortUrlRequest;
 import org.example.urlshortener.dto.ShortUrlResponse;
 import org.example.urlshortener.service.UrlService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
+@RequestMapping("/api/url/shorten")
 public class UrlController {
 
 
-    private UrlService urlService;
+    private final UrlService urlService;
 
     public UrlController(UrlService urlService) {
         this.urlService = urlService;
@@ -18,7 +22,7 @@ public class UrlController {
 
 
     //из метода мы должны получить лонгюрл и отправить его сервису
-    @PostMapping("/shorten")
+    @PostMapping()
     public ResponseEntity<ShortUrlResponse> shortenUrl(@RequestBody ShortUrlRequest request){
 
 
@@ -28,9 +32,15 @@ public class UrlController {
 
     }
 
-    @GetMapping("/{shorten}")
-    public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shorten){
-        urlService.
+    @GetMapping("/{shortUrl}")
+    public ResponseEntity<Void> redirectToLongUrl(@PathVariable String shortUrl){
+        String longUrl = urlService.getLongUrl(shortUrl);
+
+        //перенавправляем на страницу лонгюрл
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(longUrl))
+                .build();
+
     }
 
 }

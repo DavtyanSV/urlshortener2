@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UrlService {
-    private UrlRepository urlRepository;
+    private final UrlRepository urlRepository;
     public UrlService(UrlRepository urlRepository) {
         this.urlRepository = urlRepository;
     }
@@ -54,4 +54,17 @@ public class UrlService {
         return converter.encode(id);
 
     }
+
+    @Transactional
+    public String getLongUrl(String shortUrl) {
+
+        //получаем лонгюрл или кидаем ошибку
+        Url url = urlRepository.findByShortUrl(shortUrl)
+                .orElseThrow(()-> new RuntimeException("Url not found"));
+
+        return url.getShortUrl();
+    }
+
+
+
 }
