@@ -62,7 +62,8 @@ public class UrlService {
         Url url = urlRepository.findByShortUrl(shortUrl)
                 .orElseThrow(()-> new RuntimeException("Url not found"));
 
-        return url.getShortUrl();
+        //возможно здесь ошибка
+        return url.getLongUrl();
     }
 
 
